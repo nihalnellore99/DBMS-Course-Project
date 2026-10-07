@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %} | FitZone Gym Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <aside>
+    <div class="brand"><b>FIT<span>ZONE</span></b><small>Gym Management System</small></div>
+    {% set nav = [('dashboard','Dashboard'),('members','Members'),('memberships','Memberships'),
+                  ('trainers','Trainers'),('sessions','Fitness Sessions'),('bookings','Bookings'),('reports','Reports')] %}
+    {% for endpoint, label in nav %}
+      <a href="{{ url_for(endpoint) }}" class="{{ 'active' if request.endpoint == endpoint }}">{{ label }}</a>
+    {% endfor %}
+    <div class="db-note">Connected to MySQL<br>database <code>gym_management</code></div>
+  </aside>
+  <main>
+    {% for category, message in get_flashed_messages(with_categories=true) %}
+      <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

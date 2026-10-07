@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Trainers{% endblock %}
+{% block content %}
+<h1>Trainers</h1>
+<p class="sub">Table <b>TRAINER</b>. A trainer who still has sessions cannot be deleted (ON DELETE RESTRICT).</p>
+
+<div class="card">
+  <h2>Insert a new trainer</h2>
+  <form class="add" method="post" action="{{ url_for('add_trainer') }}">
+    <div><label>Trainer name</label><input name="trainer_name" required maxlength="60"></div>
+    <div><label>Specialization</label><select name="specialization">{% for t in ['Yoga','Strength','Zumba','CrossFit','Cardio','Pilates'] %}<option>{{ t }}</option>{% endfor %}</select></div>
+    <div><label>Phone (10 digits)</label><input name="phone" required pattern="[0-9]{10}" maxlength="10"></div>
+    <div><label>Email</label><input type="email" name="email" required maxlength="60"></div>
+    <div><label>Experience (years)</label><input type="number" name="experience_years" value="1" min="0" required></div>
+    <div><button class="btn" type="submit">Insert trainer</button></div>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All trainers <span class="count">{{ rows|length }} records</span></h2>
+  <div class="scroll"><table>
+    <tr><th>ID</th><th>Name</th><th>Specialization</th><th>Phone</th><th>Email</th><th class="num">Experience</th><th class="num">Sessions</th><th></th></tr>
+    {% for r in rows %}
+    <tr><td>{{ r.trainer_id }}</td><td>{{ r.trainer_name }}</td><td><span class="tag">{{ r.specialization }}</span></td><td>{{ r.phone }}</td>
+        <td>{{ r.email }}</td><td class="num">{{ r.experience_years }} yrs</td><td class="num">{{ r.sessions }}</td>
+        <td><form method="post" action="{{ url_for('delete_trainer', trainer_id=r.trainer_id) }}"><button class="del">Delete</button></form></td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}

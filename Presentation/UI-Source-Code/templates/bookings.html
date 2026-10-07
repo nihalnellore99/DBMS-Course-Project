@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Bookings{% endblock %}
+{% block content %}
+<h1>Bookings</h1>
+<p class="sub">Table <b>BOOKING</b> links MEMBER and FITNESS_SESSION (many-to-many). A member can book a session only once.</p>
+
+<div class="card">
+  <h2>Insert a new booking</h2>
+  <form class="add" method="post" action="{{ url_for('add_booking') }}">
+    <div><label>Member</label><select name="member_id">{% for m in members %}<option value="{{ m.member_id }}">{{ m.first_name }} {{ m.last_name }}</option>{% endfor %}</select></div>
+    <div><label>Session</label><select name="session_id">{% for s in sessions %}<option value="{{ s.session_id }}">{{ s.session_name }} - {{ s.session_date }} ({{ s.booked }}/{{ s.capacity }})</option>{% endfor %}</select></div>
+    <div><label>Booking date</label><input type="date" name="booking_date" value="{{ today }}" required></div>
+    <div><button class="btn" type="submit">Insert booking</button></div>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All bookings <span class="count">{{ rows|length }} records</span></h2>
+  <div class="scroll"><table>
+    <tr><th>ID</th><th>Member</th><th>Session</th><th>Trainer</th><th>Session date</th><th>Time</th><th>Booked on</th><th>Attendance</th><th></th></tr>
+    {% for r in rows %}
+    <tr><td>{{ r.booking_id }}</td><td>{{ r.member_name }}</td><td>{{ r.session_name }}</td><td>{{ r.trainer_name }}</td>
+        <td>{{ r.session_date }}</td><td>{{ r.start_time }}</td><td>{{ r.booking_date }}</td>
+        <td><span class="tag {{ r.attendance }}">{{ r.attendance }}</span></td>
+        <td><form method="post" action="{{ url_for('delete_booking', booking_id=r.booking_id) }}"><button class="del">Delete</button></form></td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}

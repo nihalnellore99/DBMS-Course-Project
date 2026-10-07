@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Memberships{% endblock %}
+{% block content %}
+<h1>Memberships</h1>
+<p class="sub">Tables <b>MEMBERSHIP</b>, <b>MEMBERSHIP_PLAN</b> and <b>PAYMENT</b>. Selling a plan inserts a membership and its payment in one transaction.</p>
+
+<div class="card">
+  <h2>Sell a plan to a member</h2>
+  <form class="add" method="post" action="{{ url_for('add_membership') }}">
+    <div><label>Member</label><select name="member_id">{% for m in members %}<option value="{{ m.member_id }}">{{ m.first_name }} {{ m.last_name }}</option>{% endfor %}</select></div>
+    <div><label>Plan</label><select name="plan_id">{% for p in plans %}<option value="{{ p.plan_id }}">{{ p.plan_name }} - Rs {{ '{:,.0f}'.format(p.price) }}</option>{% endfor %}</select></div>
+    <div><label>Start date</label><input type="date" name="start_date" value="{{ today }}" required></div>
+    <div><label>Payment mode</label><select name="payment_mode">{% for m in modes %}<option>{{ m }}</option>{% endfor %}</select></div>
+    <div><button class="btn" type="submit">Insert membership</button></div>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All memberships <span class="count">{{ rows|length }} records</span></h2>
+  <div class="scroll"><table>
+    <tr><th>ID</th><th>Member</th><th>Plan</th><th>Start</th><th>End</th><th>Status</th><th class="num">Price</th><th class="num">Paid</th><th class="num">Balance</th><th></th></tr>
+    {% for r in rows %}
+    <tr><td>{{ r.membership_id }}</td><td>{{ r.member_name }}</td><td>{{ r.plan_name }}</td><td>{{ r.start_date }}</td><td>{{ r.end_date }}</td>
+        <td><span class="tag {{ r.status }}">{{ r.status }}</span></td>
+        <td class="num">{{ '{:,.0f}'.format(r.price) }}</td><td class="num">{{ '{:,.0f}'.format(r.paid) }}</td><td class="num">{{ '{:,.0f}'.format(r.price - r.paid) }}</td>
+        <td><form method="post" action="{{ url_for('delete_membership', membership_id=r.membership_id) }}"><button class="del">Delete</button></form></td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+
+<div class="card">
+  <h2>Plans on offer <span class="count">{{ plans|length }} records</span></h2>
+  <div class="scroll"><table>
+    <tr><th>ID</th><th>Plan</th><th class="num">Months</th><th class="num">Price (Rs)</th><th>Description</th></tr>
+    {% for p in plans %}
+    <tr><td>{{ p.plan_id }}</td><td>{{ p.plan_name }}</td><td class="num">{{ p.duration_months }}</td><td class="num">{{ '{:,.0f}'.format(p.price) }}</td><td>{{ p.description }}</td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}

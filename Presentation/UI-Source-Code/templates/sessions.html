@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Fitness Sessions{% endblock %}
+{% block content %}
+<h1>Fitness Sessions</h1>
+<p class="sub">Table <b>FITNESS_SESSION</b>, joined with TRAINER and BOOKING to show who conducts it and how full it is.</p>
+
+<div class="card">
+  <h2>Insert a new session</h2>
+  <form class="add" method="post" action="{{ url_for('add_session') }}">
+    <div><label>Session name</label><input name="session_name" required maxlength="50"></div>
+    <div><label>Type</label><select name="session_type">{% for t in types %}<option>{{ t }}</option>{% endfor %}</select></div>
+    <div><label>Trainer</label><select name="trainer_id">{% for t in trainers %}<option value="{{ t.trainer_id }}">{{ t.trainer_name }} ({{ t.specialization }})</option>{% endfor %}</select></div>
+    <div><label>Room</label><input name="room" required maxlength="30"></div>
+    <div><label>Date</label><input type="date" name="session_date" value="{{ today }}" required></div>
+    <div><label>Start time</label><input type="time" name="start_time" required></div>
+    <div><label>Duration (min)</label><input type="number" name="duration_min" value="60" min="15" max="180" required></div>
+    <div><label>Capacity</label><input type="number" name="capacity" value="20" min="1" required></div>
+    <div><button class="btn" type="submit">Insert session</button></div>
+  </form>
+</div>
+
+<div class="card">
+  <h2>All sessions <span class="count">{{ rows|length }} records</span></h2>
+  <div class="scroll"><table>
+    <tr><th>ID</th><th>Session</th><th>Type</th><th>Trainer</th><th>Date</th><th>Start</th><th class="num">Minutes</th><th>Room</th><th class="num">Booked / Capacity</th><th></th></tr>
+    {% for r in rows %}
+    <tr><td>{{ r.session_id }}</td><td>{{ r.session_name }}</td><td><span class="tag">{{ r.session_type }}</span></td><td>{{ r.trainer_name }}</td>
+        <td>{{ r.session_date }}</td><td>{{ r.start_time }}</td><td class="num">{{ r.duration_min }}</td><td>{{ r.room }}</td>
+        <td class="num">{{ r.booked }} / {{ r.capacity }}</td>
+        <td><form method="post" action="{{ url_for('delete_session', session_id=r.session_id) }}"><button class="del">Delete</button></form></td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}

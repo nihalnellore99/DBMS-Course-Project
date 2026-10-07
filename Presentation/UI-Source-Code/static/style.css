@@ -1,0 +1,61 @@
+:root {
+  --ink: #12161c; --ink-2: #1c222b; --paper: #f4f5f2; --card: #ffffff;
+  --line: #e1e4de; --text: #1b2027; --muted: #68707c;
+  --accent: #e8501a; --accent-dark: #c23f10; --ok: #1f7a4d; --bad: #b3261e;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif; color: var(--text);
+       background: var(--paper); display: flex; min-height: 100vh; font-size: 15px; }
+aside { width: 232px; background: var(--ink); color: #fff; padding: 26px 0; flex-shrink: 0; }
+.brand { padding: 0 24px 22px; border-bottom: 1px solid #2a323d; margin-bottom: 14px; }
+.brand b { display: block; font-size: 22px; letter-spacing: .06em; font-weight: 800; }
+.brand b span { color: var(--accent); }
+.brand small { color: #9aa3af; font-size: 12px; letter-spacing: .04em; }
+aside a { display: block; padding: 11px 24px; color: #c9cfd8; text-decoration: none; font-weight: 600; }
+aside a:hover { background: var(--ink-2); color: #fff; }
+aside a.active { background: var(--accent); color: #fff; }
+.db-note { margin: 22px 24px 0; padding-top: 16px; border-top: 1px solid #2a323d; color: #8a93a0;
+           font-size: 12px; line-height: 1.6; }
+.db-note code { color: #ffb08f; }
+main { flex: 1; padding: 30px 30px 50px; min-width: 0; }
+h1 { margin: 0 0 4px; font-size: 27px; letter-spacing: -.01em; }
+.sub { color: var(--muted); margin: 0 0 22px; }
+h2 { font-size: 16px; margin: 0 0 14px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; margin-bottom: 22px; }
+.flash { padding: 12px 16px; border-radius: 8px; margin-bottom: 18px; font-weight: 600; }
+.flash.ok { background: #e3f3ea; color: var(--ok); border: 1px solid #b9dfc9; }
+.flash.error { background: #fbe6e4; color: var(--bad); border: 1px solid #f0bcb7; }
+.stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-bottom: 22px; }
+.stat { background: var(--ink); color: #fff; border-radius: 10px; padding: 16px 18px; }
+.stat b { display: block; font-size: 28px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.stat span { color: #a9b1bc; font-size: 12px; text-transform: uppercase; letter-spacing: .07em; }
+.stat.hot { background: var(--accent); } .stat.hot span { color: #ffe0d3; }
+form.add { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 14px; align-items: end; }
+label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase;
+        letter-spacing: .05em; margin-bottom: 5px; }
+input, select { width: 100%; padding: 9px 10px; border: 1px solid #cdd2ca; border-radius: 7px; font: inherit; background: #fff; }
+input:focus, select:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+button { font: inherit; font-weight: 700; border: 0; border-radius: 7px; cursor: pointer; }
+.btn { background: var(--accent); color: #fff; padding: 10px 16px; width: 100%; }
+.btn:hover { background: var(--accent-dark); }
+.del { background: #fff; color: var(--bad); border: 1px solid #e5b5b0; padding: 5px 11px; font-size: 13px; }
+.del:hover { background: var(--bad); color: #fff; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+     padding: 9px 10px; border-bottom: 2px solid var(--line); white-space: nowrap; }
+td { padding: 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; }
+.tag { display: inline-block; padding: 2px 9px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #eceee9; color: #454c56; }
+.tag.Active, .tag.Attended { background: #e3f3ea; color: var(--ok); }
+.tag.Expired, .tag.Missed, .tag.Cancelled { background: #fbe6e4; color: var(--bad); }
+.tag.Booked { background: #fdeadf; color: var(--accent-dark); }
+.count { float: right; font-size: 13px; color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 600; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.two .card { margin-bottom: 0; }
+.sql { font-family: Consolas, "Courier New", monospace; font-size: 12px; color: var(--muted); margin: -6px 0 12px; }
+/* keep the Delete button visible even when a wide table scrolls sideways */
+.scroll td:last-child, .scroll th:last-child { position: sticky; right: 0; background: var(--card); padding-left: 14px; }
+.scroll table { font-size: 14px; }
+.scroll td, .scroll th { padding-left: 8px; padding-right: 8px; }

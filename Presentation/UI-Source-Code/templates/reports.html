@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h1>Reports</h1>
+<p class="sub">Join and aggregate queries run live on the database.</p>
+<div class="two">
+  <div class="card">
+    <h2>Revenue by plan</h2>
+    <p class="sql">LEFT JOIN + COUNT + SUM + GROUP BY</p>
+    <table><tr><th>Plan</th><th class="num">Times sold</th><th class="num">Revenue (Rs)</th></tr>
+      {% for r in revenue %}<tr><td>{{ r.plan_name }}</td><td class="num">{{ r.times_sold }}</td><td class="num">{{ '{:,.0f}'.format(r.revenue) }}</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h2>Trainer workload</h2>
+    <p class="sql">LEFT JOIN across 3 tables + COUNT</p>
+    <table><tr><th>Trainer</th><th>Specialization</th><th class="num">Sessions</th><th class="num">Bookings</th></tr>
+      {% for r in workload %}<tr><td>{{ r.trainer_name }}</td><td>{{ r.specialization }}</td><td class="num">{{ r.sessions_conducted }}</td><td class="num">{{ r.total_bookings }}</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h2>Collection by payment mode</h2>
+    <p class="sql">COUNT + SUM + GROUP BY</p>
+    <table><tr><th>Mode</th><th class="num">Payments</th><th class="num">Amount (Rs)</th></tr>
+      {% for r in modes %}<tr><td>{{ r.payment_mode }}</td><td class="num">{{ r.no_of_payments }}</td><td class="num">{{ '{:,.0f}'.format(r.amount_collected) }}</td></tr>{% endfor %}
+    </table>
+  </div>
+  <div class="card">
+    <h2>Members with no bookings</h2>
+    <p class="sql">Subquery with NOT IN</p>
+    <table><tr><th>ID</th><th>Member</th><th>Phone</th></tr>
+      {% for r in idle %}<tr><td>{{ r.member_id }}</td><td>{{ r.member_name }}</td><td>{{ r.phone }}</td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

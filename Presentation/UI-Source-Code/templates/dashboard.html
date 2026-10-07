@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+<p class="sub">Live figures read from the database each time this page loads.</p>
+<div class="stats">
+  <div class="stat"><b>{{ counts.members }}</b><span>Members</span></div>
+  <div class="stat"><b>{{ counts.active_memberships }}</b><span>Active plans</span></div>
+  <div class="stat"><b>{{ counts.trainers }}</b><span>Trainers</span></div>
+  <div class="stat"><b>{{ counts.sessions }}</b><span>Sessions</span></div>
+  <div class="stat"><b>{{ counts.bookings }}</b><span>Bookings</span></div>
+  <div class="stat hot"><b>&#8377;{{ '{:,.0f}'.format(counts.revenue) }}</b><span>Fees collected</span></div>
+</div>
+<div class="card">
+  <h2>Session timetable</h2>
+  <div class="scroll"><table>
+    <tr><th>Session</th><th>Type</th><th>Trainer</th><th>Date</th><th>Time</th><th>Room</th><th class="num">Booked / Capacity</th></tr>
+    {% for r in upcoming %}
+    <tr><td>{{ r.session_name }}</td><td><span class="tag">{{ r.session_type }}</span></td><td>{{ r.trainer_name }}</td>
+        <td>{{ r.session_date }}</td><td>{{ r.start_time }}</td><td>{{ r.room }}</td>
+        <td class="num">{{ r.booked }} / {{ r.capacity }}</td></tr>
+    {% endfor %}
+  </table></div>
+</div>
+{% endblock %}
